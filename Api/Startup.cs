@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Models;
 using Repository;
 using Service;
 using System;
@@ -22,6 +23,7 @@ namespace DeXUserService
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            
         }
 
         public IConfiguration Configuration { get; }
@@ -30,9 +32,11 @@ namespace DeXUserService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<Context>(options => options.UseInMemoryDatabase("UserServiceDB"));;
-
+            
             services.AddScoped<UserRepository>();
             services.AddScoped<UserService>();
+
+            SeedData(services);
 
             services.AddControllers();
         }
@@ -55,6 +59,35 @@ namespace DeXUserService
             {
                 endpoints.MapControllers();
             });
+        }
+
+        public void SeedData(IServiceCollection services)
+        {
+            var context = services.BuildServiceProvider()
+                       .GetService<Context>();
+
+            context.User.Add(new User
+            {
+                Id = 1,
+                FirstName = "John",
+                LastName = "Smith"
+            });
+
+            context.User.Add(new User
+            {
+                Id = 2,
+                FirstName = "Alice",
+                LastName = "Garcia"
+            });
+
+            context.User.Add(new User
+            {
+                Id = 3,
+                FirstName = "Bob",
+                LastName = "Bobbers"
+            });
+
+            context.SaveChanges();
         }
     }
 }
