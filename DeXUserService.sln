@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api.csproj", "{B4800225-EA99-4C82-B803-778B933A4158}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{5FC6CD98-B54F-469E-B4E0-D188E4D9A623}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{3E4FA48E-520F-469E-9540-A6812D7415BB}"
@@ -13,16 +11,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{24CD3203-5115-475F-9C1E-060784624FC2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{CC6B3640-643C-48FC-9E5D-552F6C53685A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B4800225-EA99-4C82-B803-778B933A4158}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B4800225-EA99-4C82-B803-778B933A4158}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B4800225-EA99-4C82-B803-778B933A4158}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B4800225-EA99-4C82-B803-778B933A4158}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5FC6CD98-B54F-469E-B4E0-D188E4D9A623}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5FC6CD98-B54F-469E-B4E0-D188E4D9A623}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FC6CD98-B54F-469E-B4E0-D188E4D9A623}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,10 @@ Global
 		{24CD3203-5115-475F-9C1E-060784624FC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24CD3203-5115-475F-9C1E-060784624FC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24CD3203-5115-475F-9C1E-060784624FC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC6B3640-643C-48FC-9E5D-552F6C53685A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC6B3640-643C-48FC-9E5D-552F6C53685A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC6B3640-643C-48FC-9E5D-552F6C53685A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC6B3640-643C-48FC-9E5D-552F6C53685A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
