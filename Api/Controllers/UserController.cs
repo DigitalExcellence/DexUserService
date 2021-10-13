@@ -19,7 +19,7 @@ namespace DeXUserService.Controllers
             this.userService = userService;
         }
 
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(int id)
         {
             User user = await userService.GetUserById(id);
@@ -48,13 +48,8 @@ namespace DeXUserService.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> AddNewUser()
+        public async Task<IActionResult> AddNewUser(User user)
         {
-            User user = new User();
-            user.Id = 1;
-            user.FirstName = "Micheal";
-            user.LastName = "test";
-
             try
             {
                 await userService.AddUser(user);
@@ -65,6 +60,48 @@ namespace DeXUserService.Controllers
             }
 
             return Ok("User added");
+        }
+
+
+        [HttpDelete]
+        public async Task<IActionResult> RemoveUser(int id)
+        {
+            try
+            {
+                await userService.RemoveUser(id);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+            return Ok("User Removed");
+        }
+
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser(User userToUpdate)
+        {
+            User user = await userService.GetUserById(userToUpdate.Id);
+
+            if (user == null)
+            {
+                return NotFound("Could not find user");
+            }
+
+            try
+            {
+                user.FirstName = userToUpdate.FirstName;
+                user.LastName = userToUpdate.LastName;
+
+                await userService.UpdateUser(user);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+            return Ok("User Updated");
         }
     }
 }

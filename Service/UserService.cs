@@ -30,5 +30,16 @@ namespace Service
         {
            await userRepository.AddUser(user);
         }
+
+
+        public async Task UpdateUser(User user)
+        {
+            await userRepository.UpdateUser(user);
+        }
+
+        public async Task RemoveUser(int id)
+        {
+            await userRepository.RemoveUser(id);
+        }
     }
 }

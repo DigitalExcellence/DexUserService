@@ -33,5 +33,20 @@ namespace Repository
             await context.User.AddAsync(user);
             await context.SaveChangesAsync();
         }
+
+
+        public async Task UpdateUser(User user)
+        {
+            context.User.Update(user);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task RemoveUser(int id)
+        {
+            User user = context.User.Find(id);
+            context.User.Remove(user);
+
+            await context.SaveChangesAsync();
+        }
     }
 }
