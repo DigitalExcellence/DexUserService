@@ -54,4 +54,4 @@ jobs:
           app-name: 'dexuserservice'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E24FFCDE120D44E59A1C3EE392B24CDF }}
-          package: .
+          package: ${{env.DOTNET_ROOT}}/myapp
