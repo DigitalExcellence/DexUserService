@@ -1,4 +1,3 @@
-using Api;
 using Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -51,7 +50,6 @@ namespace DeXUserService
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseMiddleware<AdminSafeListMiddleware>(Configuration["AdminSafeList"]);
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("swagger/v1/swagger.json", "My API V1"); c.RoutePrefix = string.Empty; });
 
@@ -59,9 +57,10 @@ namespace DeXUserService
 
             app.UseRouting();
 
+            app.UseRouting();
+
             app.UseAuthorization();
 
-            app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
