@@ -9,9 +9,9 @@ namespace Service
 {
     public class EventService
     {
-        private  AzureKeyCredential AzureKeyCredential { get; }
+        private AzureKeyCredential AzureKeyCredential { get; }
 
-        private  Uri Azure_event_grid_domain_endpoint { get; }
+        private Uri Azure_event_grid_domain_endpoint { get; }
 
         readonly EventGridPublisherClient eventGridPublisherClient;
         public EventService()
@@ -33,12 +33,11 @@ namespace Service
                     "1.0",
                     "This is the event data")
                 {
-                    Topic = "userUpdatedd"
+                    Topic = "userUpdated"
                 }
             };
-            Response response =  await eventGridPublisherClient.SendEventsAsync(eventsList);
-            Console.WriteLine(response);
-        }
 
+            await eventGridPublisherClient.SendEventsAsync(eventsList);
+        }
     }
 }
