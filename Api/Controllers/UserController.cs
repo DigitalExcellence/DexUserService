@@ -14,9 +14,11 @@ namespace DeXUserService.Controllers
     public class UserController : ControllerBase
     {
         UserService userService;
-        public UserController(UserService userService)
+        EventService eventService;
+        public UserController(UserService userService,EventService eventService)
         {
             this.userService = userService;
+            this.eventService = eventService;
         }
 
         [HttpGet("{id}")]
@@ -102,6 +104,22 @@ namespace DeXUserService.Controllers
             }
 
             return Ok("User Updated");
+        }
+
+
+        [HttpGet("event")]
+        public async Task<IActionResult> TestEvent(int id)
+        {
+            try
+            {
+               await eventService.PublishEvent();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+            return Ok("Event tested");
         }
     }
 }

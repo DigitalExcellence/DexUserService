@@ -35,6 +35,7 @@ namespace DeXUserService
             
             services.AddScoped<UserRepository>();
             services.AddScoped<UserService>();
+            services.AddScoped<EventService>();
 
             SeedData(services);
 

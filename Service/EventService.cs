@@ -29,12 +29,15 @@ namespace Service
             {
                 new EventGridEvent(
                     "ExampleEventSubject",
-                    "Example.EventType",
+                    "userUpdated",
                     "1.0",
                     "This is the event data")
+                {
+                    Topic = "userUpdatedd"
+                }
             };
-
-            await eventGridPublisherClient.SendEventsAsync(eventsList);
+            Response response =  await eventGridPublisherClient.SendEventsAsync(eventsList);
+            Console.WriteLine(response);
         }
 
     }
