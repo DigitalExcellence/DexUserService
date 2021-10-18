@@ -1,4 +1,5 @@
-﻿using Azure.Messaging.EventGrid;
+﻿using Azure;
+using Azure.Messaging.EventGrid;
 using Azure.Messaging.EventGrid.SystemEvents;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -64,7 +65,7 @@ namespace DeXUserService.Controllers
                 return BadRequest(e.Message);
             }
 
-            return Ok("User added");
+            return Ok(user);
         }
 
 
@@ -100,6 +101,7 @@ namespace DeXUserService.Controllers
                 user.LastName = userToUpdate.LastName;
 
                 await userService.UpdateUser(user);
+
             }
             catch (Exception e)
             {
@@ -109,23 +111,39 @@ namespace DeXUserService.Controllers
             return Ok("User Updated");
         }
 
-
+        /// <summary>
+        /// publish a test event with your chosen topic and data
+        /// </summary>
+        /// <param name="topic"></param>
+        /// <param name="subjectId"></param>
+        /// <returns></returns>
         [HttpGet("event")]
-        public async Task<IActionResult> TestEvent(int id)
+        public async Task<IActionResult> TestEvent(string topic, int subjectId)
         {
             try
             {
-                await eventService.PublishEvent();
-                return Ok("event sucessfully tested");
+               Response response =  await eventService.PublishEvent(topic,subjectId);
+                if (response.Status.Equals(200))
+                {
+                    return Ok("event sucessfully tested");
+                }
+                else
+                {
+                    return BadRequest("Could not test/publish event");
+                }
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
-
         }
 
 
+
+        /// <summary>
+        /// WebHook endpoint for Azure Event Grid
+        /// </summary>
+        /// <returns></returns>
         [HttpPost("event")]
         public async Task<IActionResult> Event()
         {
@@ -157,8 +175,8 @@ namespace DeXUserService.Controllers
                 {
                     //var contosoEventData = eventGridEvent.Data.ToObjectFromJson<ContosoItemReceivedEventData>();
                     User user = new User();
-                    user.FirstName = "event fetched :D";
-                    user.LastName = "event fetched :D";
+                    user.FirstName = "userUpdated";
+                    user.LastName = "userUpdated";
 
                     await userService.AddUser(user);
                 }
@@ -168,8 +186,19 @@ namespace DeXUserService.Controllers
                 {
                     //var contosoEventData = eventGridEvent.Data.ToObjectFromJson<ContosoItemReceivedEventData>();
                     User user = new User();
-                    user.FirstName = "User removed event";
-                    user.LastName = "User removed event";
+                    user.FirstName = "userRemoved";
+                    user.LastName = "userRemoved";
+
+                    await userService.AddUser(user);
+                }
+
+                // Handle the userRemoved event
+                else if (eventGridEvent.EventType == "userAdded")
+                {
+                    //var contosoEventData = eventGridEvent.Data.ToObjectFromJson<ContosoItemReceivedEventData>();
+                    User user = new User();
+                    user.FirstName = "userAdded";
+                    user.LastName = "userAdded";
 
                     await userService.AddUser(user);
                 }

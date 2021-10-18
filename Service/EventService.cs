@@ -23,30 +23,21 @@ namespace Service
         }
 
 
-        public async Task PublishEvent()
+        public async Task <Response> PublishEvent(string topic, int objectId)
         {
             List<EventGridEvent> eventsList = new List<EventGridEvent>
             {
                 new EventGridEvent(
                     "ExampleEventSubject",
-                    "userUpdated",
+                    topic,
                     "1.0",
-                    "This is the event data")
+                    objectId)
                 {
-                    Topic = "userUpdated"
-                },
-
-                new EventGridEvent(
-                    "ExampleEventSubject",
-                    "userRemoved",
-                    "1.0",
-                    "This is the event data")
-                {
-                    Topic = "userRemoved"
+                    Topic = topic
                 }
             };
 
-            await eventGridPublisherClient.SendEventsAsync(eventsList);
+            return await eventGridPublisherClient.SendEventsAsync(eventsList);
         }
     }
 }
