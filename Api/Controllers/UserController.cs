@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure.Messaging.EventGrid;
+using Azure.Messaging.EventGrid.SystemEvents;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Models;
 using Service;
@@ -14,9 +17,11 @@ namespace DeXUserService.Controllers
     public class UserController : ControllerBase
     {
         UserService userService;
-        public UserController(UserService userService)
+        EventService eventService;
+        public UserController(UserService userService, EventService eventService)
         {
             this.userService = userService;
+            this.eventService = eventService;
         }
 
         [HttpGet("{id}")]
@@ -105,10 +110,67 @@ namespace DeXUserService.Controllers
         }
 
 
-        [HttpPost("event")]
-        public async Task<IActionResult> Event()
+        [HttpGet("event")]
+        public async Task<IActionResult> TestEvent(int id)
         {
-            return Ok("Event received");
+            try
+            {
+                await eventService.PublishEvent();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+            return Ok("Event tested");
+        }
+
+
+        [HttpPost("event")]
+        public async Task<IActionResult> Event(HttpRequest req)
+        {
+            //log.LogInformation("C# HTTP trigger function processed a request.");
+            string response = string.Empty;
+            BinaryData events = await BinaryData.FromStreamAsync(req.Body);
+            //log.LogInformation($"Received events: {events}");
+
+            EventGridEvent[] eventGridEvents = EventGridEvent.ParseMany(events);
+
+            foreach (EventGridEvent eventGridEvent in eventGridEvents)
+            {
+                // Handle system events
+                if (eventGridEvent.TryGetSystemEventData(out object eventData))
+                {
+                    // Handle the subscription validation event
+                    if (eventData is SubscriptionValidationEventData subscriptionValidationEventData)
+                    {
+                        // Do any additional validation (as required) and then return back the below response
+
+                        var responseData = new SubscriptionValidationResponse()
+                        {
+                            ValidationResponse = subscriptionValidationEventData.ValidationCode
+                        };
+                        return new OkObjectResult(responseData);
+                    }
+                    // Handle the storage blob created event
+                    else if (eventData is StorageBlobCreatedEventData storageBlobCreatedEventData)
+                    {
+                    }
+                }
+                // Handle the custom contoso event
+                else if (eventGridEvent.EventType == "userUpdated")
+                {
+                    //var contosoEventData = eventGridEvent.Data.ToObjectFromJson<ContosoItemReceivedEventData>();
+                    User user = new User();
+                    user.FirstName = "event fetched :D";
+                    user.LastName = "event fetched :D";
+
+                    await userService.AddUser(user);
+                }
+            }
+
+            return new OkObjectResult("Could not fetch event");
         }
     }
 }
+    
