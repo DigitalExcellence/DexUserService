@@ -116,13 +116,13 @@ namespace DeXUserService.Controllers
             try
             {
                 await eventService.PublishEvent();
+                return Ok("event sucessfully tested");
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
 
-            return Ok("Event tested");
         }
 
 
