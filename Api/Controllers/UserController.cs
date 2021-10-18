@@ -130,10 +130,8 @@ namespace DeXUserService.Controllers
         public async Task<IActionResult> Event()
         {
             HttpRequest req = HttpContext.Request;
-            //log.LogInformation("C# HTTP trigger function processed a request.");
             string response = string.Empty;
             BinaryData events = await BinaryData.FromStreamAsync(req.Body);
-            //log.LogInformation($"Received events: {events}");
 
             EventGridEvent[] eventGridEvents = EventGridEvent.ParseMany(events);
 
@@ -153,18 +151,25 @@ namespace DeXUserService.Controllers
                         };
                         return new OkObjectResult(responseData);
                     }
-                    // Handle the storage blob created event
-                    else if (eventData is StorageBlobCreatedEventData storageBlobCreatedEventData)
-                    {
-                    }
                 }
-                // Handle the custom contoso event
+                // Handle the userUpdated event
                 else if (eventGridEvent.EventType == "userUpdated")
                 {
                     //var contosoEventData = eventGridEvent.Data.ToObjectFromJson<ContosoItemReceivedEventData>();
                     User user = new User();
                     user.FirstName = "event fetched :D";
                     user.LastName = "event fetched :D";
+
+                    await userService.AddUser(user);
+                }
+
+                // Handle the userRemoved event
+                else if (eventGridEvent.EventType == "userRemoved")
+                {
+                    //var contosoEventData = eventGridEvent.Data.ToObjectFromJson<ContosoItemReceivedEventData>();
+                    User user = new User();
+                    user.FirstName = "User removed event";
+                    user.LastName = "User removed event";
 
                     await userService.AddUser(user);
                 }

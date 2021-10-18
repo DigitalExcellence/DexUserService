@@ -34,6 +34,15 @@ namespace Service
                     "This is the event data")
                 {
                     Topic = "userUpdated"
+                },
+
+                new EventGridEvent(
+                    "ExampleEventSubject",
+                    "userRemoved",
+                    "1.0",
+                    "This is the event data")
+                {
+                    Topic = "userRemoved"
                 }
             };
 
