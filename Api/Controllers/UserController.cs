@@ -148,7 +148,6 @@ namespace DeXUserService.Controllers
         public async Task<IActionResult> Event()
         {
             HttpRequest req = HttpContext.Request;
-            string response = string.Empty;
             BinaryData events = await BinaryData.FromStreamAsync(req.Body);
 
             EventGridEvent[] eventGridEvents = EventGridEvent.ParseMany(events);
@@ -173,34 +172,19 @@ namespace DeXUserService.Controllers
                 // Handle the userUpdated event
                 else if (eventGridEvent.EventType == "userUpdated")
                 {
-                    //var contosoEventData = eventGridEvent.Data.ToObjectFromJson<ContosoItemReceivedEventData>();
-                    User user = new User();
-                    user.FirstName = "userUpdated";
-                    user.LastName = "userUpdated";
-
-                    await userService.AddUser(user);
+                    // Do something here with the event.
                 }
 
                 // Handle the userRemoved event
                 else if (eventGridEvent.EventType == "userRemoved")
                 {
-                    //var contosoEventData = eventGridEvent.Data.ToObjectFromJson<ContosoItemReceivedEventData>();
-                    User user = new User();
-                    user.FirstName = "userRemoved";
-                    user.LastName = "userRemoved";
-
-                    await userService.AddUser(user);
+                    // Do something here with the event.
                 }
 
-                // Handle the userRemoved event
+                // Handle the userAdded event
                 else if (eventGridEvent.EventType == "userAdded")
                 {
-                    //var contosoEventData = eventGridEvent.Data.ToObjectFromJson<ContosoItemReceivedEventData>();
-                    User user = new User();
-                    user.FirstName = "userAdded";
-                    user.LastName = "userAdded";
-
-                    await userService.AddUser(user);
+                    // Do something here with the event.
                 }
             }
 
