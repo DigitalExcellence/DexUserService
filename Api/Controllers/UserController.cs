@@ -105,7 +105,7 @@ namespace DeXUserService.Controllers
         }
 
 
-        [HttpPost("/event")]
+        [HttpPost("event")]
         public async Task<IActionResult> Event()
         {
             return Ok("Event received");
