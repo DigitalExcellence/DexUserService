@@ -127,8 +127,9 @@ namespace DeXUserService.Controllers
 
 
         [HttpPost("event")]
-        public async Task<IActionResult> Event(HttpRequest req)
+        public async Task<IActionResult> Event()
         {
+            HttpRequest req = HttpContext.Request;
             //log.LogInformation("C# HTTP trigger function processed a request.");
             string response = string.Empty;
             BinaryData events = await BinaryData.FromStreamAsync(req.Body);
