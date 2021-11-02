@@ -39,6 +39,16 @@ namespace DeXUserService
 
             SeedData(services);
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "AllowedCorsOrigins",
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("https://dexapigateway.azure-api.net");
+                                  });
+            });
+
+
             services.AddControllers();
             services.AddSwaggerGen();
 
@@ -56,7 +66,7 @@ namespace DeXUserService
 
             app.UseHttpsRedirection();
 
-            app.UseRouting();
+            app.UseCors("AllowedCorsOrigins");
 
             app.UseRouting();
 
