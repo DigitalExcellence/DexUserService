@@ -44,7 +44,7 @@ namespace DeXUserService
                 options.AddPolicy(name: "AllowedCorsOrigins",
                                   builder =>
                                   {
-                                      builder.WithOrigins("https://dexapigateway.azure-api.net", "https://dexapigateway.developer.azure-api.net");
+                                      builder.WithOrigins("https://dexapigateway.azure-api.net", "https://dexapigateway.developer.azure-api.net").AllowAnyHeader().AllowAnyMethod();
                                   });
             });
 
