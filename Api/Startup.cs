@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Logging;
 using Models;
 using Repository;
 using Service;
@@ -61,6 +62,8 @@ namespace DeXUserService
             {
                 app.UseDeveloperExceptionPage();
             }
+            IdentityModelEventSource.ShowPII = true;
+
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("swagger/v1/swagger.json", "My API V1"); c.RoutePrefix = string.Empty; });
 
